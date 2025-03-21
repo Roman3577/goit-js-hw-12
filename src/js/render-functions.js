@@ -19,7 +19,7 @@ function renderImages(images, galleryElement) {
     })
     .join("");
 
-  galleryElement.innerHTML = markup;
+ galleryElement.insertAdjacentHTML("beforeend", markup);
 }
 
 export default renderImages;
