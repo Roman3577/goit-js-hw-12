@@ -7,7 +7,7 @@ import "izitoast/dist/css/iziToast.min.css";
 
 const form = document.querySelector(".form");
 const gallery = document.querySelector(".gallery");
-const loader = document.getElementById("loader");
+const loader = document.querySelector(".loader");
 export const fetchPostsBtn = document.querySelector(".fetchPostsBtn");
 
 const lightbox = new SimpleLightbox(".gallery a", {
@@ -22,7 +22,7 @@ const perPage = 15;
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
     gallery.innerHTML = "";
-    fetchPostsBtn.classList.remove("is-vidible"); 
+    fetchPostsBtn.classList.remove("is-visible"); 
 
     currentQuery = event.currentTarget.elements["search-text"].value.trim();
     currentPage = 1; 
@@ -44,7 +44,7 @@ form.addEventListener("submit", async (event) => {
         if (data.hits.length > 0) {
             renderImages(data.hits, gallery);
             lightbox.refresh();
-            fetchPostsBtn.classList.add("is-vidible"); 
+            fetchPostsBtn.classList.add("is-visible"); 
         } else {
             iziToast.warning({
                 title: "Warning",
@@ -85,7 +85,7 @@ fetchPostsBtn.addEventListener("click", async () => {
                 message: "We're sorry, but you've reached the end of search results.",
                 position: "topRight"
             });
-            fetchPostsBtn.classList.remove("is-vidible"); 
+            fetchPostsBtn.classList.remove("is-visible"); 
         }
     } catch (error) {
         loader.style.display = "none";
