@@ -1,4 +1,4 @@
-import SimpleLightbox from "simplelightbox"; 
+import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const lightbox = new SimpleLightbox(".gallery a", {
@@ -41,3 +41,4 @@ export default function renderImages(images, galleryElement) {
   lightbox.refresh(); 
 }
 
+export { lightbox };

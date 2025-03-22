@@ -1,7 +1,5 @@
 import { fetchImages } from "./js/pixabay-api.js";
-import renderImages from "./js/render-functions.js";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import renderImages, { lightbox } from "./js/render-functions.js"; 
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
@@ -10,14 +8,10 @@ const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".loader");
 export const fetchPostsBtn = document.querySelector(".fetchPostsBtn");
 
-const lightbox = new SimpleLightbox(".gallery a", {
-  captionsData: "alt",
-  captionDelay: 250
-});
-
 let currentQuery = "";
 let currentPage = 1;
 const perPage = 15;
+let totalHits = 0;
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -42,9 +36,13 @@ form.addEventListener("submit", async (event) => {
         loader.style.display = "none";
 
         if (data.hits.length > 0) {
+            totalHits = data.totalHits;
             renderImages(data.hits, gallery);
-            lightbox.refresh();
-            fetchPostsBtn.classList.add("is-visible");
+            lightbox.refresh();  
+            
+            if (currentPage * perPage < totalHits) {
+                fetchPostsBtn.classList.add("is-visible");
+            }
         } else {
             iziToast.warning({
                 title: "Warning",
@@ -73,20 +71,21 @@ fetchPostsBtn.addEventListener("click", async () => {
             renderImages(data.hits, gallery);
             lightbox.refresh();
 
-           
             const cardHeight = gallery.firstElementChild?.getBoundingClientRect().height || 0;
             window.scrollBy({
                 top: cardHeight * 2,
                 left: 0,
                 behavior: "smooth"
             });
-        } else {
-            iziToast.info({
-                title: "Info",
-                message: "We're sorry, but you've reached the end of search results.",
-                position: "topRight"
-            });
-            fetchPostsBtn.classList.remove("is-visible"); 
+
+            if (currentPage * perPage >= totalHits) {
+                fetchPostsBtn.classList.remove("is-visible");
+                iziToast.info({
+                    title: "Info",
+                    message: "We're sorry, but you've reached the end of search results.",
+                    position: "topRight"
+                });
+            }
         }
     } catch (error) {
         loader.style.display = "none";
