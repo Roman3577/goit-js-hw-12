@@ -2,8 +2,8 @@ import { fetchImages } from "./js/pixabay-api.js";
 import renderImages from "./js/render-functions.js";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-import iziToast from "izitoast"; 
-import "izitoast/dist/css/iziToast.min.css"; 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 const form = document.querySelector(".form");
 const gallery = document.querySelector(".gallery");
@@ -21,11 +21,11 @@ const perPage = 15;
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    gallery.innerHTML = "";
+    gallery.innerHTML = ""; 
     fetchPostsBtn.classList.remove("is-visible"); 
 
     currentQuery = event.currentTarget.elements["search-text"].value.trim();
-    currentPage = 1; 
+    currentPage = 1;
 
     if (!currentQuery) {
         iziToast.warning({
@@ -44,7 +44,7 @@ form.addEventListener("submit", async (event) => {
         if (data.hits.length > 0) {
             renderImages(data.hits, gallery);
             lightbox.refresh();
-            fetchPostsBtn.classList.add("is-visible"); 
+            fetchPostsBtn.classList.add("is-visible");
         } else {
             iziToast.warning({
                 title: "Warning",
@@ -71,14 +71,15 @@ fetchPostsBtn.addEventListener("click", async () => {
 
         if (data.hits.length > 0) {
             renderImages(data.hits, gallery);
-          lightbox.refresh();
-              const cardHeight = gallery.firstElementChild?.getBoundingClientRect().height || 0;
- window.scrollBy({
-        top: cardHeight * 2,
-        left: 0,
-        behavior: "smooth"
-    });
+            lightbox.refresh();
 
+           
+            const cardHeight = gallery.firstElementChild?.getBoundingClientRect().height || 0;
+            window.scrollBy({
+                top: cardHeight * 2,
+                left: 0,
+                behavior: "smooth"
+            });
         } else {
             iziToast.info({
                 title: "Info",
